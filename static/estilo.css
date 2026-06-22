@@ -1,0 +1,45 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f172a;
+    color: #f8fafc;
+    text-align: center;
+    padding: 50px 20px;
+    margin: 0;
+}
+
+.contenedor {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #38bdf8;
+    font-size: 2.5rem;
+}
+
+.lista-proyectos {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+}
+
+.tarjeta-proyecto {
+    background: #1e293b;
+    border-left: 5px solid #38bdf8;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 0 10px 10px 0;
+    text-align: left;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.tarjeta-proyecto h3 {
+    margin: 0 0 5px 0;
+    color: #f1f5f9;
+}
+
+.tarjeta-proyecto p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 0.95rem;
+}

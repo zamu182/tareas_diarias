@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Proyectos con Flask</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+    
+    <style>
+        .btn-completar {
+            text-decoration: none; font-size: 0.85rem; padding: 6px 12px; background: #34d399; color: #0f172a; font-weight: bold; border-radius: 4px; transition: 0.2s;
+        }
+        .btn-completar:hover {
+            background: #059669; color: white;
+        }
+        .btn-eliminar {
+            text-decoration: none; font-size: 0.85rem; padding: 6px 12px; background: #f87171; color: white; font-weight: bold; border-radius: 4px; transition: 0.2s;
+        }
+        .btn-eliminar:hover {
+            background: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Tablero de {{ nombre }} 📊</h1>
+        
+        <div style="background: #1e293b; padding: 20px; border-radius: 10px; margin-bottom: 30px; text-align: left; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+            <h3 style="margin-top: 0; color: #38bdf8;">➕ Agregar Nuevo Proyecto</h3>
+            
+            <form action="/" method="POST" style="display: flex; flex-direction: column; gap: 10px;">
+                <input type="text" name="titulo_proyecto" placeholder="Título del proyecto (ej: Crear Base de Datos)" required 
+                       style="padding: 10px; border-radius: 5px; border: 1px solid #475569; background: #0f172a; color: white;">
+                
+                <input type="text" name="descripcion_proyecto" placeholder="Descripción breve de lo que harás" required
+                       style="padding: 10px; border-radius: 5px; border: 1px solid #475569; background: #0f172a; color: white;">
+                
+                <button type="submit" 
+                        style="padding: 10px; background: #38bdf8; color: #0f172a; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; transition: 0.2s;">
+                    Guardar Proyecto
+                </button>
+            </form>
+        </div>
+
+        <p>Los siguientes elementos se generan dinámicamente desde la Base de Datos:</p>
+        <ul class="lista-proyectos">
+            {% for item in proyectos %}
+            <li class="tarjeta-proyecto" style="position: relative; padding-bottom: 60px;">
+                <h3>🛠️ {{ item.titulo }}</h3>
+                <p>{{ item.descripcion }}</p>
+                <small style="color: {{ '#34d399' if item.estado == 'Completado' else '#fbbf24' }}">
+                    <strong>Estado:</strong> {{ item.estado }}
+                </small>
+
+                <div style="position: absolute; bottom: 15px; right: 20px; display: flex; gap: 10px;">
+                    
+                    {% if item.estado != 'Completado' %}
+                    <a href="{{ url_for('completar', id=item.id) }}" class="btn-completar">
+                        ✓ Completar
+                    </a>
+                    {% endif %}
+
+                    <a href="{{ url_for('eliminar', id=item.id) }}" class="btn-eliminar"
+                       onclick="return confirm('¿Seguro que quieres eliminar este proyecto?');">
+                        🗑️ Eliminar
+                    </a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
