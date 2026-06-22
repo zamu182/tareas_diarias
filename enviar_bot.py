@@ -1,8 +1,10 @@
 import requests
-import os
-from app import app, db, Tarea
 
-def enviar_resumen():
+# Recibimos 'db' y 'Tarea' como parámetros desde app.py
+def main(db, Tarea, app):
+    print("El bot ha iniciado el proceso...")
+    
+    # Usamos app.app_context() para poder consultar la base de datos
     with app.app_context():
         # Buscamos tareas que no estén completas
         pendientes = Tarea.query.filter_by(completo=False).all()
@@ -26,9 +28,6 @@ def enviar_resumen():
         
         try:
             requests.get(url, params=params)
-            print("Bot ejecutado con éxito.")
+            print("Bot enviado con éxito.")
         except Exception as e:
-            print(f"Error: {e}")
-
-if __name__ == "__main__":
-    enviar_resumen()
+            print(f"Error al enviar WhatsApp: {e}")
