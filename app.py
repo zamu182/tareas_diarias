@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
-# Configuración de base de datos en la carpeta 'instance'
+# Usamos una ruta absoluta para asegurar que la DB siempre se encuentre
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'instance', 'tareas.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -13,11 +13,11 @@ db = SQLAlchemy(app)
 class Tarea(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     texto = db.Column(db.String(200), nullable=False)
+    descripcion = db.Column(db.String(500))
     fecha = db.Column(db.String(50), nullable=False)
     prioridad = db.Column(db.String(20), nullable=False)
     completo = db.Column(db.Boolean, default=False)
 
-# Crear base de datos
 with app.app_context():
     if not os.path.exists(os.path.join(basedir, 'instance')):
         os.makedirs(os.path.join(basedir, 'instance'))
@@ -30,8 +30,9 @@ def index():
 @app.route('/agregar', methods=['POST'])
 def agregar():
     nueva = Tarea(
-        texto=request.form['tarea'], 
-        fecha=request.form['fecha'], 
+        texto=request.form['tarea'],
+        descripcion=request.form['descripcion'],
+        fecha=request.form['fecha'],
         prioridad=request.form['prioridad']
     )
     db.session.add(nueva)
@@ -55,12 +56,17 @@ def eliminar(id):
 def api_tareas():
     eventos = []
     for t in Tarea.query.all():
+        # Definimos el color según prioridad
         color = '#ef4444' if t.prioridad == 'Alta' else ('#f59e0b' if t.prioridad == 'Media' else '#10b981')
         eventos.append({
             'id': t.id,
             'title': f"[{t.prioridad}] {t.texto}",
             'start': t.fecha,
-            'backgroundColor': color
+            'backgroundColor': color,
+            # ESTA PARTE ES CLAVE: pasamos la descripción a extendedProps
+            'extendedProps': {
+                'description': t.descripcion if t.descripcion else "Sin descripción"
+            }
         })
     return jsonify(eventos)
 
