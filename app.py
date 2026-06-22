@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -7,7 +7,6 @@ from apscheduler.schedulers.background import BackgroundScheduler
 app = Flask(__name__)
 
 # 2. Configuración de la Base de Datos
-# Render usa la variable de entorno DATABASE_URL que configuraste
 db_url = os.environ.get("DATABASE_URL")
 if db_url and db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql://", 1)
@@ -17,7 +16,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# Modelo de ejemplo (ajusta según lo que necesites)
+# Modelo de Tarea
 class Tarea(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
@@ -35,10 +34,11 @@ scheduler = BackgroundScheduler()
 scheduler.add_job(tarea_diaria, 'cron', hour=8, minute=0)
 scheduler.start()
 
-# 5. Ruta básica para que Render sepa que la app está viva
+# 5. Ruta para mostrar el calendario (index.html)
 @app.route('/')
 def index():
-    return "El bot de tareas está activo y funcionando."
+    # Esto busca index.html dentro de la carpeta 'templates'
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run()
