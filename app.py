@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
-# Usamos una ruta absoluta para asegurar que la DB siempre se encuentre
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'instance', 'tareas.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -56,17 +55,14 @@ def eliminar(id):
 def api_tareas():
     eventos = []
     for t in Tarea.query.all():
-        # Definimos el color según prioridad
-        color = '#ef4444' if t.prioridad == 'Alta' else ('#f59e0b' if t.prioridad == 'Media' else '#10b981')
+        # Gris si está completa, color de prioridad si no
+        color = '#64748b' if t.completo else ('#ef4444' if t.prioridad == 'Alta' else ('#f59e0b' if t.prioridad == 'Media' else '#10b981'))
         eventos.append({
             'id': t.id,
             'title': f"[{t.prioridad}] {t.texto}",
             'start': t.fecha,
             'backgroundColor': color,
-            # ESTA PARTE ES CLAVE: pasamos la descripción a extendedProps
-            'extendedProps': {
-                'description': t.descripcion if t.descripcion else "Sin descripción"
-            }
+            'extendedProps': {'description': t.descripcion or "Sin descripción"}
         })
     return jsonify(eventos)
 

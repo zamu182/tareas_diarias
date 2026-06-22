@@ -1,45 +1,70 @@
-body {
+/* ==========================================
+   ESTILOS GLOBALES Y LAYOUT
+   ========================================== */
+body { 
+    background-color: #0f172a; 
+    color: #ffffff; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #0f172a;
-    color: #f8fafc;
-    text-align: center;
-    padding: 50px 20px;
-    margin: 0;
 }
 
-.contenedor {
-    max-width: 600px;
-    margin: 0 auto;
+.dashboard-card { 
+    background-color: #1e293b; 
+    padding: 15px; 
+    border-radius: 12px; 
+    margin-bottom: 20px; 
 }
 
-h1 {
-    color: #38bdf8;
-    font-size: 2.5rem;
+/* ==========================================
+   CALENDARIO (FULLCALENDAR) - FORZANDO BLANCO
+   ========================================== */
+#calendar { 
+    height: 500px; 
+    color: #ffffff !important; 
 }
 
-.lista-proyectos {
-    list-style: none;
-    padding: 0;
-    margin-top: 30px;
+/* Títulos, días de la semana y números de los días */
+#calendar .fc-toolbar-title, 
+#calendar .fc-col-header-cell-cushion, 
+#calendar .fc-daygrid-day-number,
+#calendar a {
+    color: #ffffff !important;
+    text-decoration: none !important;
 }
 
-.tarjeta-proyecto {
-    background: #1e293b;
-    border-left: 5px solid #38bdf8;
-    padding: 15px 20px;
-    margin-bottom: 15px;
-    border-radius: 0 10px 10px 0;
-    text-align: left;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+/* Encabezados de la tabla */
+#calendar .fc-theme-standard th {
+    border-color: #334155 !important;
+    background-color: transparent !important;
 }
 
-.tarjeta-proyecto h3 {
-    margin: 0 0 5px 0;
-    color: #f1f5f9;
+/* Botones de navegación (Today, <, >) */
+.fc .fc-button-primary {
+    background-color: #334155 !important;
+    border-color: #475569 !important;
+    color: #ffffff !important;
 }
 
-.tarjeta-proyecto p {
-    margin: 0;
-    color: #94a3b8;
-    font-size: 0.95rem;
+.fc .fc-button-primary:hover {
+    background-color: #475569 !important;
 }
+
+/* ==========================================
+   LISTA DE TAREAS E HISTORIAL
+   ========================================== */
+.tarea-hecha { 
+    text-decoration: line-through; 
+    color: #64748b !important; 
+}
+
+.prioridad-alta { 
+    border-left: 5px solid #ef4444; 
+    padding-left: 10px; 
+}
+
+.text-info { 
+    color: #38bdf8 !important; 
+}
+
+/* Ajustes de botones */
+.btn-success { background-color: #10b981; border: none; }
+.btn-danger { background-color: #ef4444; border: none; }
