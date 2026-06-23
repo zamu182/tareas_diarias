@@ -26,7 +26,6 @@
                         <button type="submit" class="btn btn-info w-100">Guardar Tarea</button>
                     </form>
                 </div>
-                
                 <div class="dashboard-card">
                     <h4>Historial</h4>
                     {% for t in tareas %}
@@ -35,42 +34,28 @@
                             <span class="{{ 'tarea-hecha' if t.completo else '' }}"><strong>{{t.texto}}</strong></span>
                             <div>
                                 <a href="/check/{{t.id}}" class="btn btn-sm btn-success">✓</a>
-                                <a href="/eliminar/{{t.id}}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro?')">X</a>
+                                <a href="/eliminar/{{t.id}}" class="btn btn-sm btn-danger">X</a>
                             </div>
                         </div>
-                        {% if t.descripcion %}<small class="text-info"><em>{{ t.descripcion }}</em></small>{% endif %}
                     </div>
                     {% endfor %}
                 </div>
             </div>
-            
             <div class="col-12 col-lg-9">
                 <div class="dashboard-card"><div id="calendar"></div></div>
             </div>
         </div>
     </div>
-    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             new FullCalendar.Calendar(document.getElementById('calendar'), {
                 initialView: 'dayGridMonth',
                 locale: 'es',
                 height: 'auto',
-                events: '/api/tareas',
-                eventDidMount: function(info) {
-                    if(info.event.extendedProps.description) {
-                        info.el.setAttribute('title', info.event.extendedProps.description);
-                    }
-                }
+                events: '/api/tareas'
             }).render();
         });
-    </script>
-
-    <script>
-        // Refresca la página automáticamente cada 30 segundos (30000 milisegundos)
-        setInterval(function() {
-            window.location.reload();
-        }, 30000);
+        setInterval(function() { window.location.reload(); }, 30000);
     </script>
 </body>
 </html>
