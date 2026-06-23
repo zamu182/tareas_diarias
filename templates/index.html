@@ -2,56 +2,50 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Tablero</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Tu estilo personalizado -->
+    <!-- FullCalendar -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
 </head>
-<body class="bg-light">
+<body class="bg-light p-4">
 
-<div class="container py-5">
-    <!-- Header -->
+<div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Mi Tablero</h2>
-        <a href="/archivo" class="btn btn-outline-secondary">Ver Archivo 📦</a>
+        <a href="/archivo" class="btn btn-outline-secondary btn-sm">Ver Archivo 📦</a>
     </div>
 
     <div class="row">
-        <!-- Formulario -->
-        <div class="col-md-4">
-            <div class="card shadow-sm p-4 mb-4">
+        <!-- Columna Izquierda: Formulario -->
+        <div class="col-md-3">
+            <div class="card shadow-sm p-3">
                 <h5 class="mb-3">Registrar Actividad</h5>
                 <form action="/agregar" method="POST">
-                    <div class="mb-2">
-                        <input type="text" class="form-control" name="tarea" placeholder="Título" required>
-                    </div>
-                    <div class="mb-2">
-                        <textarea class="form-control" name="descripcion" placeholder="Descripción"></textarea>
-                    </div>
-                    <div class="mb-2">
-                        <input type="date" class="form-control" name="fecha" required>
-                    </div>
-                    <div class="mb-3">
-                        <select class="form-select" name="prioridad">
-                            <option value="Alta">Prioridad Alta</option>
-                            <option value="Media" selected>Prioridad Media</option>
-                            <option value="Baja">Prioridad Baja</option>
-                        </select>
-                    </div>
+                    <input type="text" class="form-control mb-2" name="tarea" placeholder="Título" required>
+                    <textarea class="form-control mb-2" name="descripcion" placeholder="Descripción"></textarea>
+                    <input type="date" class="form-control mb-2" name="fecha" required>
+                    <select class="form-select mb-3" name="prioridad">
+                        <option value="Alta">Prioridad Alta</option>
+                        <option value="Media" selected>Prioridad Media</option>
+                        <option value="Baja">Prioridad Baja</option>
+                    </select>
                     <button type="submit" class="btn btn-primary w-100">Guardar</button>
                 </form>
             </div>
         </div>
 
-        <!-- Lista de tareas -->
-        <div class="col-md-8">
-            <div class="card shadow-sm p-4">
+        <!-- Columna Derecha: Calendario y Tareas -->
+        <div class="col-md-9">
+            <div class="card shadow-sm p-3 mb-4">
+                <div id="calendar"></div>
+            </div>
+
+            <div class="card shadow-sm p-3">
                 <h5 class="mb-3">Tareas Activas</h5>
                 {% for t in tareas %}
                 <div class="d-flex justify-content-between align-items-center p-3 mb-2 border rounded shadow-sm 
-                    {% if t.prioridad == 'Alta' %}prioridad-alta{% elif t.prioridad == 'Media' %}prioridad-media{% else %}prioridad-baja{% endif %}">
+                     {% if t.prioridad == 'Alta' %}prioridad-alta{% elif t.prioridad == 'Media' %}prioridad-media{% else %}prioridad-baja{% endif %}">
                     <div>
                         <strong>{{ t.texto }}</strong>
                         <div class="text-muted small">{{ t.descripcion }}</div>
@@ -67,5 +61,15 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new FullCalendar.Calendar(document.getElementById('calendar'), {
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            height: 350,
+            events: '/api/tareas'
+        }).render();
+    });
+</script>
 </body>
 </html>
