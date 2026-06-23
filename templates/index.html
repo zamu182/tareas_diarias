@@ -29,14 +29,18 @@
                 <div class="dashboard-card">
                     <h4>Historial</h4>
                     {% for t in tareas %}
-                    <div class="mb-3 border-bottom border-secondary pb-2 {{ 'prioridad-alta' if t.prioridad == 'Alta' }}">
+                    <div class="mb-3 border-bottom border-secondary pb-2 
+                        {% if t.prioridad == 'Alta' %}prioridad-alta
+                        {% elif t.prioridad == 'Media' %}prioridad-media
+                        {% elif t.prioridad == 'Baja' %}prioridad-baja{% endif %}">
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="{{ 'tarea-hecha' if t.completo else '' }}"><strong>{{t.texto}}</strong></span>
                             <div>
                                 <a href="/check/{{t.id}}" class="btn btn-sm btn-success">✓</a>
-                                <a href="/eliminar/{{t.id}}" class="btn btn-sm btn-danger">X</a>
+                                <a href="/eliminar/{{t.id}}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro?')">X</a>
                             </div>
                         </div>
+                        {% if t.descripcion %}<small class="text-info"><em>{{ t.descripcion }}</em></small>{% endif %}
                     </div>
                     {% endfor %}
                 </div>

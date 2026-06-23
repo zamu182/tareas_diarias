@@ -1,6 +1,4 @@
-/* ==========================================
-   ESTILOS GLOBALES Y LAYOUT
-   ========================================== */
+/* Estilos Globales */
 body { 
     background-color: #0f172a; 
     color: #ffffff; 
@@ -14,57 +12,19 @@ body {
     margin-bottom: 20px; 
 }
 
-/* ==========================================
-   CALENDARIO (FULLCALENDAR) - FORZANDO BLANCO
-   ========================================== */
-#calendar { 
-    height: 500px; 
-    color: #ffffff !important; 
-}
+/* Colores de Prioridad (Historial) */
+.prioridad-alta { border-left: 5px solid #ef4444 !important; padding-left: 10px; }
+.prioridad-media { border-left: 5px solid #f59e0b !important; padding-left: 10px; }
+.prioridad-baja { border-left: 5px solid #10b981 !important; padding-left: 10px; }
 
-/* Títulos, días de la semana y números de los días */
-#calendar .fc-toolbar-title, 
-#calendar .fc-col-header-cell-cushion, 
-#calendar .fc-daygrid-day-number,
-#calendar a {
-    color: #ffffff !important;
-    text-decoration: none !important;
-}
+.tarea-hecha { text-decoration: line-through; color: #64748b !important; }
+.text-info { color: #38bdf8 !important; }
 
-/* Encabezados de la tabla */
-#calendar .fc-theme-standard th {
-    border-color: #334155 !important;
-    background-color: transparent !important;
-}
+/* Calendario */
+#calendar { height: 500px; color: #ffffff !important; }
+#calendar .fc-toolbar-title, #calendar .fc-col-header-cell-cushion, 
+#calendar .fc-daygrid-day-number, #calendar a { color: #ffffff !important; text-decoration: none !important; }
+.fc .fc-button-primary { background-color: #334155 !important; border-color: #475569 !important; }
 
-/* Botones de navegación (Today, <, >) */
-.fc .fc-button-primary {
-    background-color: #334155 !important;
-    border-color: #475569 !important;
-    color: #ffffff !important;
-}
-
-.fc .fc-button-primary:hover {
-    background-color: #475569 !important;
-}
-
-/* ==========================================
-   LISTA DE TAREAS E HISTORIAL
-   ========================================== */
-.tarea-hecha { 
-    text-decoration: line-through; 
-    color: #64748b !important; 
-}
-
-.prioridad-alta { 
-    border-left: 5px solid #ef4444; 
-    padding-left: 10px; 
-}
-
-.text-info { 
-    color: #38bdf8 !important; 
-}
-
-/* Ajustes de botones */
 .btn-success { background-color: #10b981; border: none; }
 .btn-danger { background-color: #ef4444; border: none; }
