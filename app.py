@@ -53,6 +53,14 @@ def archivar(id):
         db.session.commit()
     return redirect(url_for('index'))
 
+@app.route('/eliminar_definitivo/<int:id>')
+def eliminar_definitivo(id):
+    t = Tarea.query.get(id)
+    if t:
+        db.session.delete(t)
+        db.session.commit()
+    return redirect(url_for('ver_archivo'))
+
 @app.route('/archivo')
 def ver_archivo():
     return render_template('archivo.html', tareas=Tarea.query.filter_by(archivada=True).all())
