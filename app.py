@@ -4,13 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 
 app = Flask(__name__)
-# Configuración
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///tareas.db").replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# Modelo
 class Tarea(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     texto = db.Column(db.String(100), nullable=False)
@@ -20,15 +18,13 @@ class Tarea(db.Model):
     completo = db.Column(db.Boolean, default=False)
     archivada = db.Column(db.Boolean, default=False)
 
-# Migración de emergencia: agrega la columna si falta
 with app.app_context():
     db.create_all()
     try:
-        # Intenta agregar la columna si no existe
         db.session.execute(text("ALTER TABLE tarea ADD COLUMN archivada BOOLEAN DEFAULT FALSE;"))
         db.session.commit()
-    except Exception:
-        db.session.rollback() # La columna ya existe, todo está bien
+    except:
+        db.session.rollback()
 
 @app.route('/')
 def index():
@@ -36,12 +32,8 @@ def index():
 
 @app.route('/agregar', methods=['POST'])
 def agregar():
-    db.session.add(Tarea(
-        texto=request.form.get('tarea'), 
-        descripcion=request.form.get('descripcion'), 
-        fecha=request.form.get('fecha'), 
-        prioridad=request.form.get('prioridad')
-    ))
+    db.session.add(Tarea(texto=request.form.get('tarea'), descripcion=request.form.get('descripcion'), 
+                         fecha=request.form.get('fecha'), prioridad=request.form.get('prioridad')))
     db.session.commit()
     return redirect(url_for('index'))
 
@@ -67,10 +59,8 @@ def ver_archivo():
 
 @app.route('/api/tareas')
 def api_tareas():
-    return jsonify([{
-        'title': t.texto, 'start': t.fecha,
-        'color': '#f43f5e' if t.prioridad == 'Alta' else ('#fbbf24' if t.prioridad == 'Media' else '#10b981')
-    } for t in Tarea.query.filter_by(archivada=False).all()])
+    return jsonify([{'title': t.texto, 'start': t.fecha, 'color': '#dc3545' if t.prioridad == 'Alta' else ('#ffc107' if t.prioridad == 'Media' else '#198754')} 
+                    for t in Tarea.query.filter_by(archivada=False).all()])
 
 if __name__ == '__main__':
     app.run()

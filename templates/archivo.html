@@ -5,18 +5,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
     <title>Archivo</title>
 </head>
-<body class="p-4 bg-light">
-    <div class="dashboard-card">
-        <a href="/" class="btn btn-sm btn-primary mb-3">← Volver</a>
-        <h3>Tareas Archivadas</h3>
-        <table class="table">
-            <thead><tr><th>Tarea</th><th>Fecha</th></tr></thead>
-            <tbody>
-                {% for t in tareas %}
-                <tr><td>{{t.texto}}</td><td>{{t.fecha}}</td></tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<body class="bg-light p-4">
+<div class="container">
+    <div class="d-flex justify-content-between mb-4"><h3>📦 Archivo de Tareas</h3><a href="/" class="btn btn-primary">← Volver</a></div>
+    {% for t in tareas %}
+    <div class="card shadow-sm p-3 mb-3 border-start border-5 {% if t.prioridad == 'Alta' %}border-danger{% elif t.prioridad == 'Media' %}border-warning{% else %}border-success{% endif %}">
+        <div class="d-flex justify-content-between align-items-center">
+            <div><strong class="{{ 'text-decoration-line-through text-muted' if t.completo }}">{{ t.texto }}</strong><div class="text-muted small">{{ t.descripcion }}</div><div class="badge bg-secondary mt-1">{{ t.fecha }}</div></div>
+            <div>{% if t.completo %}<span class="badge bg-success">Completada ✓</span>{% else %}<span class="badge bg-danger">No finalizada ✗</span>{% endif %}</div>
+        </div>
     </div>
+    {% endfor %}
+</div>
 </body>
 </html>
