@@ -20,9 +20,20 @@
          {% if t.prioridad == 'Alta' %}border-danger{% elif t.prioridad == 'Media' %}border-warning{% else %}border-success{% endif %}">
         <div class="card-body d-flex justify-content-between align-items-center">
             <div>
-                <h5 class="mb-0 text-decoration-line-through text-muted">{{ t.texto }}</h5>
-                <small class="text-muted">{{ t.descripcion }} - {{ t.fecha }}</small>
+                <h5 class="mb-1 {{ 'text-decoration-line-through' if t.completo else '' }}">
+                    {{ t.texto }}
+                </h5>
+                <small class="text-muted d-block">{{ t.descripcion }} - {{ t.fecha }}</small>
+                
+                <div class="mt-2">
+                    {% if t.completo %}
+                        <span class="badge bg-success"><i class="bi bi-check-circle"></i> Finalizada con éxito</span>
+                    {% else %}
+                        <span class="badge bg-secondary"><i class="bi bi-box-arrow-in-down"></i> Solo archivada</span>
+                    {% endif %}
+                </div>
             </div>
+
             <a href="/eliminar_definitivo/{{t.id}}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Seguro que deseas eliminar esta tarea?')">
                 <i class="bi bi-trash"></i>
             </a>
