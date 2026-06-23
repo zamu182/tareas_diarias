@@ -37,11 +37,13 @@ def agregar():
     db.session.commit()
     return redirect(url_for('index'))
 
+# MODIFICACIÓN: Al hacer check, se marca como completada Y se archiva automáticamente
 @app.route('/check/<int:id>')
 def check(id):
     t = Tarea.query.get(id)
     if t:
-        t.completo = not t.completo
+        t.completo = True # Se marca como completada
+        t.archivada = True # Se envía directo al archivo
         db.session.commit()
     return redirect(url_for('index'))
 
