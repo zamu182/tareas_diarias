@@ -1,30 +1,30 @@
-/* Estilos Globales */
-body { 
-    background-color: #0f172a; 
-    color: #ffffff; 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+:root {
+    --bg-app: #f1f5f9;
+    --card-bg: #ffffff;
+    --text-main: #334155;
+    --border-color: #e2e8f0;
 }
+
+body { background-color: var(--bg-app); color: var(--text-main); font-family: 'Inter', sans-serif; }
 
 .dashboard-card { 
-    background-color: #1e293b; 
-    padding: 15px; 
-    border-radius: 12px; 
+    background-color: var(--card-bg); 
+    border-radius: 16px; 
+    padding: 24px; 
     margin-bottom: 20px; 
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
 }
 
-/* Colores de Prioridad (Historial) */
-.prioridad-alta { border-left: 5px solid #ef4444 !important; padding-left: 10px; }
-.prioridad-media { border-left: 5px solid #f59e0b !important; padding-left: 10px; }
-.prioridad-baja { border-left: 5px solid #10b981 !important; padding-left: 10px; }
+/* Indicadores de prioridad modernos */
+.prioridad-alta { border-left: 6px solid #f43f5e !important; }
+.prioridad-media { border-left: 6px solid #fbbf24 !important; }
+.prioridad-baja { border-left: 6px solid #10b981 !important; }
 
-.tarea-hecha { text-decoration: line-through; color: #64748b !important; }
-.text-info { color: #38bdf8 !important; }
+/* Botones estilo SaaS */
+.btn-primary { background-color: #3b82f6; border: none; border-radius: 8px; }
+.btn-sm { border-radius: 6px; }
 
 /* Calendario */
-#calendar { height: 500px; color: #ffffff !important; }
-#calendar .fc-toolbar-title, #calendar .fc-col-header-cell-cushion, 
-#calendar .fc-daygrid-day-number, #calendar a { color: #ffffff !important; text-decoration: none !important; }
-.fc .fc-button-primary { background-color: #334155 !important; border-color: #475569 !important; }
-
-.btn-success { background-color: #10b981; border: none; }
-.btn-danger { background-color: #ef4444; border: none; }
+#calendar { background: white; }
+.fc .fc-toolbar-title { font-size: 1.2rem !important; font-weight: 600; }
